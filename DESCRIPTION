@@ -1,0 +1,18 @@
+Package: deploy_dashboard
+Title: Deploy SER script: `deploy_dashboard.R`
+Version: 0.0.1
+Authors@R: 
+    person(given = "Malcolm",
+           family = "Barrett",
+           role = c("aut", "cre"),
+           email = "malcolmbarrett@gmail.com",
+           comment = c(ORCID = "0000-0003-0299-5825"))
+Description: This repository deploys SER script `deploy_dashboard.R` via GitHub Actions.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Imports: 
+    ser (>= 0.0.1)
+Remotes: 
+    SERTwitter/ser

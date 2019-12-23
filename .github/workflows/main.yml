@@ -1,0 +1,30 @@
+name: 'Deploy SER script: `deploy_dashboard.R`'
+'on':
+  push:
+    branch: master
+  schedule:
+    - cron:  '0 10 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@master
+      - name: Install Package Dependencies
+        run: |-
+          Rscript -e "install.packages('remotes', repos = 'https://demo.rstudiopm.com/all/__linux__/bionic/latest')"
+          Rscript -e "remotes::install_deps(dependencies = TRUE, repos = 'https://demo.rstudiopm.com/all/__linux__/bionic/latest')"
+      - name: 'Deploy script: `deploy_dashboard.R`'
+        env:
+          DRIVE_AUTH_TOKEN_PATH: ${{ secrets.DRIVE_AUTH_TOKEN_PATH }}
+          GMAILR_APP: ${{ secrets.GMAILR_APP }}
+          SER_ACCESS_SECRET: ${{ secrets.SER_ACCESS_SECRET }}
+          SER_ACCESS_TOKEN: ${{ secrets.SER_ACCESS_TOKEN }}
+          SER_CONSUMER_KEY: ${{ secrets.SER_CONSUMER_KEY }}
+          SER_CONSUMER_SECRET: ${{ secrets.SER_CONSUMER_SECRET }}
+          SER_SHINYAPPS_TOKEN: ${{ secrets.SER_SHINYAPPS_TOKEN }}
+          SER_SHINYAPPS_SECRET: ${{ secrets.SER_SHINYAPPS_SECRET }}
+        run: |-
+          Rscript -e "library(ser); source_ser('deploy_dashboard')"
+    container: rocker/verse:latest
